@@ -1,4 +1,5 @@
 #include "io.h"
+#include "language_modeler.h"
 
 /*
 
@@ -101,5 +102,39 @@ vector<string>* sentenceTokenizer(ifstream& file){
 
 	delete SENTENCE_BUFFER;
 	return rtn;
+
+}
+
+void printUnigrams(UnigramMap* map) {
+
+	string outname = "lm/unigram.lm";
+	ofstream out;
+	out.open((char*)outname.c_str(), ios::out);
+
+	for(auto const unig : *map){
+
+		out << unig.second->word << " " << unig.second->frequency << endl;
+
+	}
+	
+	out.close();
+
+}
+
+void printBigrams(BigramMap* map){
+
+	string outname = "lm/bigram.lm";
+	ofstream out;
+	out.open((char*)outname.c_str(), ios::out);
+
+	for(auto const firstword : *map){
+
+		for(auto const secondword : *(firstword.second->secondwords)){
+
+			out << firstword.second->firstword << " " << secondword.second->word << " " << secondword.second->frequency << endl;
+
+		}
+
+	}
 
 }

@@ -16,10 +16,10 @@ int main(){
 	cout << "Enter filename: ";
 	cin >> filename;
 	
-	ifstream file;
-	file.open(filename.c_str(), ios::in);
+	ifstream inputfile;
+	inputfile.open(filename.c_str(), ios::in);
 
-	if(file == NULL)
+	if(inputfile == NULL)
 	{
 
 		cerr << "File not found" << endl;
@@ -27,11 +27,11 @@ int main(){
 	
 	}
 
-	vector<string>* sentences = sentenceTokenizer(file);
+	vector<string>* sentences = sentenceTokenizer(inputfile);
 	vector<string>* words;
 	vector<string> wordlist;
 
-	file.close();
+	inputfile.close();
 
 	unsigned int numSentences = 0;
 	unsigned int numWords = 0;
@@ -60,7 +60,6 @@ int main(){
 			#endif
 			
 			wordlist.push_back((*words)[j]);
-			
 			numWords++;
 		
 		}
@@ -73,32 +72,28 @@ int main(){
 
 	} 
 
+	#ifdef VERB
 	cout << "Number of sentences: " << numSentences << endl;
 	cout << "Number of words: " << numWords << endl;
+	#endif
 
-	UnigramMap *map = computeUnigrams(wordlist);
+	UnigramMap *uniMap = computeUnigrams(wordlist);
+	printUnigrams(uniMap);	
 
-	string outname = "lm/unigram.lm";
-	ofstream out;
-	out.open((char*)outname.c_str(), ios::out);
+	BigramMap *bigrMap = computeBigrams(wordlist);
+	printBigrams(bigrMap);
 
-	for(auto const unig : *map){
-
-		out << unig.second->word << " " << unig.second->frequency << endl;
-
-	}
-	
 	#ifdef VERB
 	cout << "Freeing memory..." << endl;
 	#endif
 	
 	//Release memory
-	for(UnigramMap::iterator it = map->begin();it != map->end(); ++it){
+	for(UnigramMap::iterator it = uniMap->begin();it != uniMap->end(); ++it){
 	
 		delete it->second;
 
 	}
-	delete map;
+	delete uniMap;
 	
 	return 0;	
 
