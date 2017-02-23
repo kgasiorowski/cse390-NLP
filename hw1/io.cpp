@@ -47,8 +47,12 @@ vector<string>* wordTokenizer(string sentence){
 	
 	while(token != NULL){
 	
-		words->push_back(string(token));
+		string word = string(token);
 		
+		//Make the string lowercases
+		transform(word.begin(), word.end(), word.begin(), ::tolower);
+		
+		words->push_back(word);
 		token = strtok(NULL, " ");
 	
 	}
