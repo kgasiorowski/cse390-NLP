@@ -42,7 +42,6 @@ string& trim(string& s) {
 vector<string>* wordTokenizer(string sentence){
 
 	vector<string>* words = new vector<string>();
-	
 	char *token = strtok((char*)sentence.c_str(), " ");
 	
 	while(token != NULL){
@@ -57,6 +56,7 @@ vector<string>* wordTokenizer(string sentence){
 	
 	}
 	
+	delete token;
 	return words; 
 
 }
@@ -65,7 +65,6 @@ vector<string>* sentenceTokenizer(ifstream& file){
 
 	vector<string>* rtn = new vector<string>();
 	char* const SENTENCE_BUFFER = (char*)calloc(MAX_SENTENCE, sizeof(char));
-	
 	char *bufferPtr = SENTENCE_BUFFER;
 
 	if(SENTENCE_BUFFER == NULL)
@@ -75,9 +74,10 @@ vector<string>* sentenceTokenizer(ifstream& file){
 
 	while(!file.eof()){
 
+		//Scan until you hit a period or EOF.
 		while(!file.eof() && (c = file.get()) != '.'){
 		
-				//Swap any newline or other whitespace for a regular whitespace
+				//Swap any newline or other whitespace or punc for a regular whitespace
 				if(c == '\t' || c == '\v' || c == '\t' || c == '\n' || ispunct(c))
 					c = ' ';
 					
@@ -85,11 +85,12 @@ vector<string>* sentenceTokenizer(ifstream& file){
 		
 		}
 
-		*bufferPtr = 0; // Null terminate
+		*bufferPtr = 0; // Null terminate the sentence we scanned
 
 		string sentence(SENTENCE_BUFFER);
 		sentence = trim(sentence);
 		
+		// Handle an edge case
 		if(sentence[0] == -1)
 			break;
 		
@@ -98,7 +99,7 @@ vector<string>* sentenceTokenizer(ifstream& file){
 
 	}
 
-	free(SENTENCE_BUFFER);
+	delete SENTENCE_BUFFER;
 	return rtn;
 
 }
