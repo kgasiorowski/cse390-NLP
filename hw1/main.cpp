@@ -1,58 +1,40 @@
-#include <cstdio>
+#include <string>
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <vector>
 
-#define MAX_SENTENCE 1000
+#include "io.h"
 
 using namespace std;
 
-vector<string>* sentenceTokenizer(ifstream& file){
-
-	vector<string>* rtn = new vector<string>();
-	char* const SENTENCE_BUFFER = (char*)calloc(MAX_SENTENCE, sizeof(char));
-	
-	char *bufferPtr = SENTENCE_BUFFER;
-
-	if(SENTENCE_BUFFER == NULL)
-		throw "There was a problem with allocating memory!";
-
-	char c = 0;
-
-	while(!file.eof()){
-
-		while(!file.eof() && (c = file.get()) != '.')
-				*bufferPtr++ = c; //Copy the sentence until you hit a period
-
-		*bufferPtr = 0; //Null terminate
-		rtn->push_back(string(SENTENCE_BUFFER)); // Add the sentence
-		bufferPtr = SENTENCE_BUFFER;
-
-		cerr << "Sentence scanned: " << rtn->back() << endl << endl;
-
-	}
-
-	return rtn;
-
-}
-
 int main(){
 
-	string filename;
+	string filename = "input.txt";
 	cout << "Enter filename: ";
 	cin >> filename;
-
+	
 	ifstream file;
 	file.open(filename.c_str(), ios::in);
 
 	vector<string>* sentences = sentenceTokenizer(file);
+	vector<string>* words;
 
 	file.close();
 
-	for(auto const& s: *sentences){
+	for(unsigned int i = 0; i < sentences->size(); i++){
 
-		cout << "Sentence: <" << s << ">" << endl;
+		string sentence = (*sentences)[i];
+		cout << "Sentence: <" << sentence << ">" << endl;
+		
+		words = wordTokenizer(sentence);
+		cout << "Words:";
+		
+		for(unsigned int j = 0; j < words->size(); j++)
+			cout << (*words)[j] << "::";
+		
+		cout << endl << endl;
+		
+		delete words;
 
 	} 
 
