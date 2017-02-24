@@ -10,12 +10,12 @@
 
 using namespace std;
 
-int main(){
+int main(int argc, char *argv[]){
 
-	string filename = "input.txt";
-	cout << "Enter filename: ";
-	cin >> filename;
+	string filename = argv[1];
 	
+	cin >> filename;
+
 	ifstream inputfile;
 	inputfile.open(filename.c_str(), ios::in);
 
@@ -88,6 +88,13 @@ int main(){
 	#endif
 	
 	//Release memory
+	for(BigramMap::iterator it = bigrMap->begin();it != bigrMap->end(); ++it){
+
+		delete it->second;
+
+	}
+	delete bigrMap;
+	
 	for(UnigramMap::iterator it = uniMap->begin();it != uniMap->end(); ++it){
 	
 		delete it->second;

@@ -24,14 +24,20 @@ BigramMap* computeBigrams(vector<string> wordList){
 	for(;i < wordList.size()-1; i++){
 
 		string word = wordList[i];
+		string secondword = wordList[i+1];
+
+		cerr << "On words: " << word << " | " << secondword << endl;
 
 		if(bigramMap->count(word) == 1){
 
 			//Bigram match was found. 
 			//Read the second word and insert it into this bigram's second word map.
-			string secondword = wordList[i+1];
-			UnigramMap *secondWordMap = bigramMap->find(word)->second->secondwords;
-			insertUnigram(secondWordMap, secondword);
+			Bigram *bigram = bigramMap->find(word)->second;
+			bigram->frequency++;
+			
+			insertUnigram(bigram->secondwords, secondword);
+
+			cerr << "Match found. New bigram freq: " << setw(2) << bigram->frequency << " | Inserted" << endl; 
 
 		}
 		else if(bigramMap->count(word) == 0){
@@ -41,11 +47,35 @@ BigramMap* computeBigrams(vector<string> wordList){
 			bigram->firstword = word;
 			bigramMap->insert({word, bigram});
 			
+			insertUnigram(bigram->secondwords, secondword);			
+
+			cerr << "No match found. New bigram added: " << setw(5) << bigram->firstword << " | Frequency: " << bigram->frequency << endl;
+
 		}
 		else
 			throw "Error: there was more than one match per bigram.";	
 
+		cerr << endl;
+
 	}
+
+	string word = wordList[wordList.size()-1];
+	if(bigramMap->count(word) == 1){
+
+		bigramMap->find(word)->second->frequency++;
+
+	}
+	else if(bigramMap->count(word) == 0){
+
+		cerr << "BOOBS!!!" << endl;
+
+		Bigram *bigram = new Bigram();
+		bigram->firstword = word;
+		bigramMap->insert({word, bigram});
+
+	}
+	else 
+		throw "ERROR!";
 
 	return bigramMap;
 

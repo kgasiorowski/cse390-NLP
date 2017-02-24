@@ -111,12 +111,9 @@ void printUnigrams(UnigramMap* map) {
 	ofstream out;
 	out.open((char*)outname.c_str(), ios::out);
 
-	for(auto const unig : *map){
-
+	for(auto const unig : *map)
 		out << unig.second->word << " " << unig.second->frequency << endl;
 
-	}
-	
 	out.close();
 
 }
@@ -127,14 +124,24 @@ void printBigrams(BigramMap* map){
 	ofstream out;
 	out.open((char*)outname.c_str(), ios::out);
 
-	for(auto const firstword : *map){
+	for(BigramMap::iterator it = map->begin(); it != map->end(); ++it){
 
-		for(auto const secondword : *(firstword.second->secondwords)){
+		UnigramMap *uniMap = it->second->secondwords;
+		for(UnigramMap::iterator it2 = uniMap->begin(); it2 != uniMap->end(); ++it2){
 
-			out << firstword.second->firstword << " " << secondword.second->word << " " << secondword.second->frequency << endl;
-
+			Bigram bigram = *(it->second);
+			Unigram unigram = *(it2->second);
+			
+			out << bigram.firstword << " ";
+			out << bigram.frequency << " ";
+			out << unigram.word << " ";
+			out << unigram.frequency << " ";
+			out << endl;
+		
 		}
 
 	}
+
+	out.close();
 
 }

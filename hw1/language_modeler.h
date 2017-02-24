@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -26,15 +28,15 @@ typedef unordered_map<string, Unigram*> UnigramMap;
 struct Bigram{
 
 	string firstword; //This bigram's first occuring word
+	unsigned int frequency;
 	UnigramMap* secondwords; //List of words that appear after this word
 
-	Bigram(){
+	Bigram(): frequency(1) {
 		secondwords = new UnigramMap();
 	}
 
-	Bigram(string s){
-		secondwords = new UnigramMap();
-		firstword = s;
+	Bigram(string s): firstword(s){
+		Bigram();
 	}
 
 	~Bigram(){
@@ -49,5 +51,6 @@ typedef unordered_map<string, Bigram*>  BigramMap;
 UnigramMap* computeUnigrams(vector<string>);
 BigramMap*  computeBigrams(vector<string>);
 void insertUnigram(UnigramMap*, string);
+float calculateMLEProb(Bigram b, string);
 
 #endif
