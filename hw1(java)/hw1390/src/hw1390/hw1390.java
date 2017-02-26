@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hw1390;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * 
+ * Main runner class for this project.
  * 
  * @author Kuba
  */
@@ -20,8 +15,8 @@ public class hw1390 {
     
     public static void main(String args[]){
         
+        //Verify that the right argument was passed in.
         String filename = "";
-        
         try {
             
             filename = TEXT_PATH + args[0];
@@ -32,9 +27,8 @@ public class hw1390 {
             
         }
         
-        Utils.createOutputDirectoryPath(OUTPUT_PATH);
+        //Read in and parse our input text.
         ArrayList<String> masterWordList = new ArrayList<String>();
-        
         System.out.println("FILENAME: " + filename);
         
         try{
@@ -62,9 +56,14 @@ public class hw1390 {
         
         System.out.println("GENERATING BIGRAM STATISTICS (this may take " + 
                             "some time depending on corpus size)");
-        BigramMatrix bimap = BigramMatrix.generateBigramMap(masterWordList);
+        BigramTable bimap = BigramTable.generateBigramMap(masterWordList);
         
         try{
+            
+            //Generate our output directory
+            Utils.createOutputDirectoryPath(OUTPUT_PATH);
+            
+            //Write all of our output
             System.out.println("WRITING UNIGRAM STATISTICS TO: " + OUTPUT_PATH + "unigram.lm");
             uniMap.print(OUTPUT_PATH + "unigram.lm");
             

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hw1390;
 
 import java.io.BufferedWriter;
@@ -17,16 +12,25 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Represents a bigram table.
+ * Represents a bigram table. Is essentially a 2d array of every
+ * token encountered in the dataset.
  * 
  * @author Kuba
  */
-public class BigramMatrix extends ArrayList<BigramList>{
+public class BigramTable extends ArrayList<BigramList>{
     
-    //Ignores the first word, because nothing precedes it.
-    public static BigramMatrix generateBigramMap(Collection<String> dataset){
+    /**
+     * Generates a table of bigrams. This will generally be 
+     * VERY large as the table will have the size of each
+     * unique token squared, since every two-word combination
+     * must be calculated.
+     * 
+     * @param dataset
+     * @return 
+     */
+    public static BigramTable generateBigramMap(Collection<String> dataset){
     
-        BigramMatrix matrix = new BigramMatrix();
+        BigramTable matrix = new BigramTable();
         
         ArrayList<String> uniqueStrings = new ArrayList<String>();
         for(String s : dataset)
@@ -93,6 +97,14 @@ public class BigramMatrix extends ArrayList<BigramList>{
         
     }
     
+    /**
+     * Prints this bigram table's information to the file
+     * specified in filename.
+     * 
+     * @param filename
+     * @param unigrams
+     * @throws IOException 
+     */
     public void print(String filename, UnigramMap unigrams) throws IOException{
         
         BufferedWriter output = new BufferedWriter(new FileWriter(new File(filename)));
@@ -135,6 +147,12 @@ public class BigramMatrix extends ArrayList<BigramList>{
     
     }
     
+    /**
+     * Converts this table into one (potentially 
+     * very long) arraylist.
+     * 
+     * @return 
+     */
     public ArrayList<Bigram> toArrayList(){
     
         ArrayList<Bigram> toRtn = new ArrayList<Bigram>();
@@ -147,6 +165,13 @@ public class BigramMatrix extends ArrayList<BigramList>{
         
     }
     
+    /**
+     * Prints the top 20 bigrams of this table based on joint-probability.
+     * 
+     * @param unigrams
+     * @param filename
+     * @throws IOException 
+     */
     public void printTopBigrams(UnigramMap unigrams, String filename) throws IOException{
     
         final int NUM_TOP_BIGRAMS = 20;

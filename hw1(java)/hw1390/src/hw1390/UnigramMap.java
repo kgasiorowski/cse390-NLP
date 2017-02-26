@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hw1390;
 
 import java.io.BufferedWriter;
@@ -20,7 +15,12 @@ import java.util.HashMap;
  */
 public class UnigramMap extends HashMap<String, Unigram>{
     
-    //Generates a unigram map from a collection of strings
+    /**
+     * Generates a unigramMap based on a collection of Strings.
+     * 
+     * @param dataset
+     * @return 
+     */
     public static UnigramMap generateUnigramMap(Collection<String> dataset){
     
         UnigramMap map = new UnigramMap();
@@ -39,7 +39,11 @@ public class UnigramMap extends HashMap<String, Unigram>{
         
     }
     
-    //Calculates the MLE probability of this unigram
+    /**
+     * Calculates the MLE probability for each unigram in this map.
+     * 
+     * @param numtokens 
+     */
     private void calculateUnigramMLE(int numtokens){
         
         for(Unigram unigram : this.values())
@@ -47,7 +51,16 @@ public class UnigramMap extends HashMap<String, Unigram>{
             
     }
     
-    //Inserts a unigram into a map
+    /**
+     * Inserts a unigram into this map. If it already exists,
+     * increment its count and do nothing.
+     * 
+     * If not, create a new unigram and add it with a frequency of 1.
+     * 
+     * @param map
+     * @param word
+     * @return 
+     */
     public static UnigramMap insertUnigram(UnigramMap map, String word){
     
         if(!map.containsKey(word))
@@ -59,7 +72,13 @@ public class UnigramMap extends HashMap<String, Unigram>{
         
     }
     
-    //Prints the info of this unigram map to file "filename"
+    /**
+     * Prints this set of unigrams' information to the file specified
+     * by "filename".
+     * 
+     * @param filename
+     * @throws IOException 
+     */
     public void print(String filename) throws IOException{
     
         BufferedWriter output = new BufferedWriter(new FileWriter(new File(filename)));

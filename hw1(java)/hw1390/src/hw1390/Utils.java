@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hw1390;
 
 import java.io.File;
@@ -10,17 +5,30 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
- *
+ * Static class meant for random methods that don't belong anywhere else.
+ * 
  * @author Kuba
  */
 public abstract class Utils {
     
+    /**
+     * Ensures that the output path exists.
+     * 
+     * @param path 
+     */
     public static void createOutputDirectoryPath(String path){
         
         new File(path).mkdirs();
     
     }
     
+    /**
+     * Tokenizes sentences simply with the "." delimiter.
+     * 
+     * @param filename
+     * @return
+     * @throws FileNotFoundException 
+     */
     public static ArrayList<String> sentenceTokenizer(String filename) throws FileNotFoundException{
     
         ArrayList<String> sentenceList = new ArrayList<String>();
@@ -53,6 +61,12 @@ public abstract class Utils {
         
     }
  
+    /**
+     * Tokenizes words from a sentence based only one whitespace.
+     * 
+     * @param sentence
+     * @return 
+     */
     public static ArrayList<String> wordTokenizer(String sentence){
     
         ArrayList<String> words = new ArrayList<String>();
@@ -69,6 +83,9 @@ public abstract class Utils {
         
     }
     
+    /**
+     * Prints usage information and exits the program.
+     */
     public static void printUsage(){
     
         System.out.println("USAGE:\njava -jar LMB.jar inputfilename\n"
