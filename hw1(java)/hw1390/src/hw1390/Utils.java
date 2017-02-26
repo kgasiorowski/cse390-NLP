@@ -5,11 +5,8 @@
  */
 package hw1390;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -17,6 +14,12 @@ import java.util.*;
  * @author Kuba
  */
 public abstract class Utils {
+    
+    public static void createOutputDirectoryPath(String path){
+        
+        new File(path).mkdirs();
+    
+    }
     
     public static ArrayList<String> sentenceTokenizer(String filename) throws FileNotFoundException{
     
@@ -68,9 +71,10 @@ public abstract class Utils {
     
     public static void printUsage(){
     
-        System.out.println("USAGE:\njava LMB inputfilename\n\nWhere: LMB is the executable of this program"
+        System.out.println("USAGE:\njava -jar LMB.jar inputfilename\n"
+                         + "\nWhere: LMB is the executable of this program"
                          + "\ninputfilename is a plaintext file located in the ./text/ folder"
-                         + "\nAll output files will be created and written to in the root directory of the executable");
+                         + "\nAll output files will be created and written to the \"lm\" directory in root");
         System.exit(1);
     
     }

@@ -9,16 +9,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- *
+ * 
+ * 
  * @author Kuba
  */
-public class Client {
+public class hw1390 {
  
     private static final String TEXT_PATH = "./text/";
+    private static final String OUTPUT_PATH = "./lm/";
     
     public static void main(String args[]){
-    
-        ArrayList<String> masterWordList = new ArrayList<String>();
         
         String filename = "";
         
@@ -31,6 +31,9 @@ public class Client {
             Utils.printUsage();
             
         }
+        
+        Utils.createOutputDirectoryPath(OUTPUT_PATH);
+        ArrayList<String> masterWordList = new ArrayList<String>();
         
         System.out.println("FILENAME: " + filename);
         
@@ -51,6 +54,7 @@ public class Client {
                 
         }catch(IOException e){
             System.out.println("File: " + filename + " not found.");
+            System.exit(1);
         }
         
         System.out.println("GENERATING UNIGRAM STATISTICS");
@@ -61,15 +65,15 @@ public class Client {
         BigramMatrix bimap = BigramMatrix.generateBigramMap(masterWordList);
         
         try{
-            System.out.println("WRITING UNIGRAM STATISTICS TO: unigram.lm");
-            uniMap.print("unigram.lm");
+            System.out.println("WRITING UNIGRAM STATISTICS TO: " + OUTPUT_PATH + "unigram.lm");
+            uniMap.print(OUTPUT_PATH + "unigram.lm");
             
-            System.out.println("WRITING BIGRAM STATISTICS TO: bigram.lm (this may take " + 
+            System.out.println("WRITING BIGRAM STATISTICS TO: " + OUTPUT_PATH + "bigram.lm (this may take " + 
                             "some time depending on corpus size)");
-            bimap.print("bigram.lm", uniMap);
+            bimap.print(OUTPUT_PATH + "bigram.lm", uniMap);
             
             System.out.println("WRITING TOP 20 BIGRAMS TO: top-bigrams.txt");
-            bimap.printTopBigrams(uniMap, "top-bigrams.txt");
+            bimap.printTopBigrams(uniMap, OUTPUT_PATH + "top-bigrams.txt");
             
         }catch(IOException e){
             System.out.println("Some output file couldn't be opened.");
