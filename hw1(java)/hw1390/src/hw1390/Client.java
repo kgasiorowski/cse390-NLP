@@ -19,21 +19,33 @@ public class Client {
     public static void main(String args[]){
     
         ArrayList<String> masterWordList = new ArrayList<String>();
-        String filename = TEXT_PATH + "1.txt";
+        
+        String filename = "";
+        
+        try {
+            
+            filename = TEXT_PATH + args[0];
+            
+        } catch (ArrayIndexOutOfBoundsException e) {
+            
+            Utils.printUsage();
+            
+        }
+        
+        System.out.println("FILENAME: " + filename);
         
         try{
         
+            System.out.println("PARSING SENTENCES");
             ArrayList<String> sentences = Utils.sentenceTokenizer(filename);
             ArrayList<String> words;
             
+            System.out.println("PARSING WORDS");
             for(String s : sentences){
-            
-                words = Utils.wordTokenizer(s);
-                for(String w : words){
-                    
-                    masterWordList.add(w);
                 
-                }
+                words = Utils.wordTokenizer(s);
+                for(String w : words)
+                    masterWordList.add(w);
                 
             }
                 
@@ -41,15 +53,29 @@ public class Client {
             System.out.println("File: " + filename + " not found.");
         }
         
+        System.out.println("GENERATING UNIGRAM STATISTICS");
         UnigramMap uniMap = UnigramMap.generateUnigramMap(masterWordList);
-        BigramMap bimap = BigramMap.generateBigramMap(masterWordList);
+        
+        System.out.println("GENERATING BIGRAM STATISTICS (this may take " + 
+                            "some time depending on corpus size)");
+        BigramMatrix bimap = BigramMatrix.generateBigramMap(masterWordList);
         
         try{
+            System.out.println("WRITING UNIGRAM STATISTICS TO: unigram.lm");
             uniMap.print("unigram.lm");
-            bimap.print("bigram.lm", uniMap.size());
+            
+            System.out.println("WRITING BIGRAM STATISTICS TO: bigram.lm (this may take " + 
+                            "some time depending on corpus size)");
+            bimap.print("bigram.lm", uniMap);
+            
+            System.out.println("WRITING TOP 20 BIGRAMS TO: top-bigrams.txt");
+            bimap.printTopBigrams(uniMap, "top-bigrams.txt");
+            
         }catch(IOException e){
-            System.out.println("Output file couldn't be opened");
+            System.out.println("Some output file couldn't be opened.");
         }
+        
+        System.out.println("DONE!");
         
     }
     
