@@ -1,5 +1,4 @@
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /*
@@ -12,8 +11,6 @@ import java.util.HashMap;
  *
  * @author Kuba
  */
-public class WordList extends HashMap<String, Long>{
-    
-    
+public class WordMatrix extends HashMap<String, WordMap>{
     
 }
