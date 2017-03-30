@@ -4,3 +4,5 @@
 *.win
 *.layout
 *lm/
+/hw1(java)/hw1390/nbproject/private/
+/hw1(java)/hw1390/dist/
